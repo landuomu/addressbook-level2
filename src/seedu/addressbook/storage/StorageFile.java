@@ -77,6 +77,13 @@ public class StorageFile {
     private static boolean isValidPath(Path filePath) {
         return filePath.toString().endsWith(".txt");
     }
+    
+    /**
+     * Returns true is the current path exists in directory
+     */
+    public boolean fileExists() {
+    	return path.toFile().exists();
+    }
 
     /**
      * Saves all data to this storage file.
@@ -145,4 +152,7 @@ public class StorageFile {
         return path.toString();
     }
 
+    public String getWarningMessage() {
+    	return getPath() + " does not exist. Creating " + getPath() + " again...";
+    }
 }
