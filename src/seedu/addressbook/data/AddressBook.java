@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * Represents the entire address book. Contains the data of the address book.
@@ -22,6 +23,7 @@ public class AddressBook {
 
     private final UniquePersonList allPersons;
     private final UniqueTagList allTags; // can contain tags not attached to any person
+    private final ArrayList<Tagging> allTaggings;
 
     /**
      * Creates an empty address book.
@@ -29,6 +31,7 @@ public class AddressBook {
     public AddressBook() {
         allPersons = new UniquePersonList();
         allTags = new UniqueTagList();
+        allTaggings = new ArrayList<Tagging>();
     }
 
     /**
@@ -41,8 +44,12 @@ public class AddressBook {
     public AddressBook(UniquePersonList persons, UniqueTagList tags) {
         this.allPersons = new UniquePersonList(persons);
         this.allTags = new UniqueTagList(tags);
+        this.allTaggings = new ArrayList<Tagging>();
         for (Person p : allPersons) {
             syncTagsWithMasterList(p);
+            for (Tag t : p.getTags()) {
+            	allTaggings.add(new Tagging(p, t, Tagging.ADD_TAGGING));
+            }
         }
     }
 
@@ -86,8 +93,9 @@ public class AddressBook {
      *
      * @throws DuplicateTagException if an equivalent tag already exists.
      */
-    public void addTag(Tag toAdd) throws DuplicateTagException {
+    public void addTag(Tag toAdd, Person person) throws DuplicateTagException {
         allTags.add(toAdd);
+        allTaggings.add(new Tagging(person, toAdd, Tagging.ADD_TAGGING));
     }
 
     /**
@@ -118,8 +126,9 @@ public class AddressBook {
      *
      * @throws TagNotFoundException if no such Tag could be found.
      */
-    public void removeTag(Tag toRemove) throws TagNotFoundException {
+    public void removeTag(Tag toRemove, Person person) throws TagNotFoundException {
         allTags.remove(toRemove);
+        allTaggings.remove(new Tagging(person, toRemove, Tagging.DELETE_TAGGING));
     }
 
     /**
