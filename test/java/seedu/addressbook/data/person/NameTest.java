@@ -43,7 +43,7 @@ public class NameTest {
 	@Test
 	public void isSimilar_diffOrder() throws IllegalValueException {
 		Name name = new Name("John K Smith");
-		Name orderName = new Name("Smith, John K");
+		Name orderName = new Name("Smith John K");
 		assertTrue(name.isSimilar(orderName));
 	}
 

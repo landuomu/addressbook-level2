@@ -4,6 +4,8 @@ import seedu.addressbook.data.exception.IllegalValueException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Represents a Person's name in the address book.
@@ -49,6 +51,20 @@ public class Name {
      * Two names are considered similar if
      */
     public boolean isSimilar(Name other) {
+    	// check for exact match
+    	if (fullName.equals(other.toString())) 
+    		return true;
+    	
+    	// check for case-insensitive match
+    	if (fullName.equalsIgnoreCase(other.toString()))
+    		return true;
+    	
+    	// check if one is a subset of another
+    	Set<String> thisSet = new HashSet<String>(Arrays.asList(fullName.split(" ")));
+    	Set<String> otherSet = new HashSet<String>(Arrays.asList(other.toString().split(" ")));
+    	if (thisSet.containsAll(otherSet) || otherSet.containsAll(thisSet))
+    		return true;
+    	
     	return false;
     }
 
