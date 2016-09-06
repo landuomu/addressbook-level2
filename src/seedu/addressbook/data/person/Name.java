@@ -51,17 +51,9 @@ public class Name {
      * Two names are considered similar if
      */
     public boolean isSimilar(Name other) {
-    	// check for exact match
-    	if (fullName.equals(other.toString())) 
-    		return true;
-    	
-    	// check for case-insensitive match
-    	if (fullName.equalsIgnoreCase(other.toString()))
-    		return true;
-    	
     	// check if one is a subset of another
-    	Set<String> thisSet = new HashSet<String>(Arrays.asList(fullName.split(" ")));
-    	Set<String> otherSet = new HashSet<String>(Arrays.asList(other.toString().split(" ")));
+    	Set<String> thisSet = new HashSet<String>(Arrays.asList(fullName.toLowerCase().split(" ")));
+    	Set<String> otherSet = new HashSet<String>(Arrays.asList(other.toString().toLowerCase().split(" ")));
     	if (thisSet.containsAll(otherSet) || otherSet.containsAll(thisSet))
     		return true;
     	
